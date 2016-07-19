@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>weather</title>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	//readWeather4();
+});
+
+function readWeather1(){
+	//var url = "http://m.weather.com.cn/atad/101280601.html";
+	var url = "http://www.weather.com.cn/data/sk/101280601.html";
+	$("#weather").load(url, function(data) {   
+		console.info("data = " + data );
+		
+	});	
+}
+
+function readWeather2(){ 
+	var url = "http://query.yahooapis.com/v1/public/yql";
+	$.getJSON(url, {   
+		q: "select * from json where url='http://m.weather.com.cn/atad/101280601.html'",   
+		format: "xml"   
+	}, function(data) {   
+		console.info("data = " + data );
+		
+	});	
+}
+
+function readWeather3(){
+	var url = "http://m.weather.com.cn/atad/101280601.html";
+	$.ajax({
+        url : url,
+        dataType : "jsonp",
+        jsonp:"jsonpcallback",  
+        success : function(data) {   
+    		
+    	}
+    });
+}
+
+function readWeather4(){
+	var yqlCallback = function(data){
+		if(data){
+			console.info(data.query.result);
+		}
+	}
+	
+}
+</script>
+<script>
+  var yqlCallback = function(data) {
+    var wind = data.query.result;
+    alert(wind);
+  };
+</script>
+
+<script src="https://query.yahooapis.com/v1/public/yql?q=select * from json where url='http://m.weather.com.cn/atad/101280601.html'&format=json&callback=yqlCallback"></script>
+</head>
+<body>
+<div id="weather"></div>
+</body>
+</html>
